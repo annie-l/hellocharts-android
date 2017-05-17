@@ -1,5 +1,6 @@
 package lecho.lib.hellocharts.model;
 
+import android.graphics.LinearGradient;
 import android.graphics.PathEffect;
 
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class Line {
     private int strokeWidth = DEFAULT_LINE_STROKE_WIDTH_DP;
     private int pointRadius = DEFAULT_POINT_RADIUS_DP;
     private boolean hasGradientToTransparent = false;
+    private boolean hasGradient = false;
+    private int[] gradientRange = null;
     private boolean hasPoints = true;
     private boolean hasLines = true;
     private boolean hasLabels = false;
@@ -39,6 +42,7 @@ public class Line {
     private PathEffect pathEffect;
     private LineChartValueFormatter formatter = new SimpleLineChartValueFormatter();
     private List<PointValue> values = new ArrayList<PointValue>();
+    private float maxY = 0;
 
     public Line() {
 
@@ -55,7 +59,8 @@ public class Line {
         this.areaTransparency = line.areaTransparency;
         this.strokeWidth = line.strokeWidth;
         this.pointRadius = line.pointRadius;
-        this.hasGradientToTransparent = line.hasGradientToTransparent;
+        this.hasGradient = line.hasGradient;
+        this.gradientRange = line.gradientRange;
         this.hasPoints = line.hasPoints;
         this.hasLines = line.hasLines;
         this.hasLabels = line.hasLabels;
@@ -66,6 +71,7 @@ public class Line {
         this.shape = line.shape;
         this.pathEffect = line.pathEffect;
         this.formatter = line.formatter;
+        this.maxY = line.maxY;
 
         for (PointValue pointValue : line.values) {
             this.values.add(new PointValue(pointValue));
@@ -94,6 +100,14 @@ public class Line {
         } else {
             this.values = values;
         }
+    }
+
+    public void setMaxY(float value) {
+        this.maxY = value;
+    }
+
+    public float getMaxY() {
+        return this.maxY;
     }
 
     public int getColor() {
@@ -221,13 +235,31 @@ public class Line {
         return this;
     }
 
-    public boolean getGradientToTransparent() {
+    public boolean getGradient() {
+        return hasGradient;
+    }
+
+    public Line setHasGradient(boolean hasGradient) {
+        this.hasGradient = hasGradient;
+        return this;
+    }
+
+    public boolean getHasGradientToTransparent() {
         return hasGradientToTransparent;
     }
 
     public Line setHasGradientToTransparent(boolean hasGradientToTransparent) {
         this.hasGradientToTransparent = hasGradientToTransparent;
         return this;
+    }
+
+    public Line setGradientRange(int[] gradientRange) {
+        this.gradientRange = gradientRange;
+        return this;
+    }
+
+    public int[] getGradientRange() {
+        return this.gradientRange;
     }
 
     public boolean isCubic() {

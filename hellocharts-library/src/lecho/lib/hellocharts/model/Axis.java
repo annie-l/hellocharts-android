@@ -75,6 +75,8 @@ public class Axis {
 
     private boolean hasTiltedLabels = false;
 
+    private int labelOffset = 0;
+
     /**
      * Creates auto-generated axis without name and with default formatter.
      */
@@ -155,6 +157,35 @@ public class Axis {
 
         Axis axis = new Axis(values);
         return axis;
+    }
+
+    public static Axis generateAxisFromArray(int[] axisValues, String[] axisValuesLabels) {
+        if (axisValues.length != axisValuesLabels.length) {
+            throw new IllegalArgumentException("Values and labels arrays must have the same length!");
+        }
+
+        List<AxisValue> values = new ArrayList<AxisValue>();
+        int index = 0;
+        for (float value : axisValues) {
+            AxisValue axisValue = new AxisValue(value).setLabel(axisValuesLabels[index]);
+            values.add(axisValue);
+            ++index;
+        }
+
+        Axis axis = new Axis(values);
+        return axis;
+    }
+
+    public void update(float scale) {
+        for (AxisValue value : values) {
+            value.update(scale);
+        }
+    }
+
+    public void finish() {
+        for (AxisValue value : values) {
+            value.finish();
+        }
     }
 
     public List<AxisValue> getValues() {
@@ -300,6 +331,15 @@ public class Axis {
     public Axis setHasTiltedLabels(boolean hasTiltedLabels) {
         this.hasTiltedLabels = hasTiltedLabels;
         return this;
+    }
+
+    public Axis setLabelOffset(int labelOffset) {
+        this.labelOffset = labelOffset;
+        return this;
+    }
+
+    public int getLabelOffset() {
+        return this.labelOffset;
     }
 
 }

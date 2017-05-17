@@ -497,10 +497,12 @@ public class LineChartRenderer extends AbstractChartRenderer {
 
         linePaint.setStyle(Paint.Style.FILL);
         linePaint.setAlpha(line.getAreaTransparency());
-        linePaint.setShader(line.getGradientToTransparent() ?
-                new LinearGradient(0, 0, 0, canvas.getHeight(), line.getColor(),
-                        line.getColor() & 0x00ffffff, Shader.TileMode.MIRROR) :
-                null);
+
+        linePaint.setShader(line.getGradient() ?
+            getLinearGradientFromRange(line, canvas.getHeight()) : (line
+              .getHasGradientToTransparent() ? new LinearGradient(0, 0, 0, canvas.getHeight(),
+              line.getColor() & 0x66ffffff, line.getColor() & 0x00ffffff, Shader.TileMode.MIRROR) :
+            null));
         canvas.drawPath(path, linePaint);
         linePaint.setStyle(Paint.Style.STROKE);
     }
@@ -509,6 +511,26 @@ public class LineChartRenderer extends AbstractChartRenderer {
         float diffX = touchX - x;
         float diffY = touchY - y;
         return Math.pow(diffX, 2) + Math.pow(diffY, 2) <= 2 * Math.pow(radius, 2);
+    }
+
+    private LinearGradient getLinearGradientFromRange(Line line, float chartHeight) {
+        //calculate how tall the line is in relation to the chart
+        float lineMaxPercentage = (line.getMaxY() - getMaximumViewport().bottom) /
+            (getMaximumViewport().top - getMaximumViewport().bottom);
+
+        //get the colors for a portion of the range based on line height
+        int[] range = line.getGradientRange();
+        int length = (int)(lineMaxPercentage * range.length);
+        length = Math.max(length, 2); //linear gradient needs to be at least 2 colors
+        length = Math.min(length, range.length); //don't make it more than 100%
+
+        //grab relevant colors from RANGE_COLORS
+        int[] colorArray = new int[length];
+        for (int i = 0; i < length; i++) {
+            colorArray[i] = range[length - 1 - i];
+        }
+
+        return new LinearGradient(0, 0, 0, chartHeight, colorArray, null, Shader.TileMode.MIRROR);
     }
 
 }

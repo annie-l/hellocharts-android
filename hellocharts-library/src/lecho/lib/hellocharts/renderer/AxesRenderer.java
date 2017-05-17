@@ -605,8 +605,18 @@ public class AxesRenderer {
                         labelPaintTab[position]);
                 canvas.restore();
             } else {
+                canvas.save();
+                if (axis.getLabelOffset() != 0) {
+                    if (LEFT == position || RIGHT == position) {
+                        canvas.translate(0, axis.getLabelOffset()); //move label above/below line
+                    } else if (TOP == position || BOTTOM == position) {
+                        canvas.translate(axis.getLabelOffset(), 0); //move label left/right of line
+                    }
+
+                }
                 canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
                         labelPaintTab[position]);
+                canvas.restore();
             }
         }
 

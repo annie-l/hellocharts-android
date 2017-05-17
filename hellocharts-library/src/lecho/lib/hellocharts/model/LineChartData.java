@@ -1,5 +1,6 @@
 package lecho.lib.hellocharts.model;
 
+import android.graphics.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,8 @@ public class LineChartData extends AbstractChartData {
         values.add(new PointValue(2, 3));
         values.add(new PointValue(3, 4));
         Line line = new Line(values);
+        line.setColor(Color.TRANSPARENT);
+        line.setPointColor(Color.TRANSPARENT);
         List<Line> lines = new ArrayList<Line>(1);
         lines.add(line);
         data.setLines(lines);
@@ -52,12 +55,36 @@ public class LineChartData extends AbstractChartData {
         for (Line line : lines) {
             line.update(scale);
         }
+        if (getAxisYLeft() != null) {
+            getAxisYLeft().update(scale);
+        }
+        if (getAxisYRight() != null) {
+            getAxisYRight().update(scale);
+        }
+        if (getAxisXTop() != null) {
+            getAxisXTop().update(scale);
+        }
+        if (getAxisXBottom() != null) {
+            getAxisXBottom().update(scale);
+        }
     }
 
     @Override
     public void finish() {
         for (Line line : lines) {
             line.finish();
+        }
+        if (getAxisYLeft() != null) {
+            getAxisYLeft().finish();
+        }
+        if (getAxisYRight() != null) {
+            getAxisYRight().finish();
+        }
+        if (getAxisXTop() != null) {
+            getAxisXTop().finish();
+        }
+        if (getAxisXBottom() != null) {
+            getAxisXBottom().finish();
         }
     }
 
