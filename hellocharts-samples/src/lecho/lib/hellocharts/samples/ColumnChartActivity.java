@@ -50,6 +50,7 @@ public class ColumnChartActivity extends ActionBarActivity {
         private ColumnChartData data;
         private boolean hasAxes = true;
         private boolean hasAxesNames = true;
+        private boolean hasGradientToTransparent = false;
         private boolean hasLabels = false;
         private boolean hasLabelForSelected = false;
         private int dataType = DEFAULT_DATA;
@@ -116,6 +117,9 @@ public class ColumnChartActivity extends ActionBarActivity {
                 toggleAxesNames();
                 return true;
             }
+            if (id == R.id.action_toggle_gradient_transparent) {
+                toggleGradientToTransparent();
+            }
             if (id == R.id.action_animate) {
                 prepareDataAnimation();
                 chart.startDataAnimation();
@@ -169,7 +173,8 @@ public class ColumnChartActivity extends ActionBarActivity {
 
                 values = new ArrayList<SubcolumnValue>();
                 for (int j = 0; j < numSubcolumns; ++j) {
-                    values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor()));
+                    values.add(new SubcolumnValue((float) Math.random() * 50f + 5,
+                            ChartUtils.pickColor(), hasGradientToTransparent));
                 }
 
                 Column column = new Column(values);
@@ -211,7 +216,9 @@ public class ColumnChartActivity extends ActionBarActivity {
 
                 values = new ArrayList<SubcolumnValue>();
                 for (int j = 0; j < numSubcolumns; ++j) {
-                    values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor()));
+                    values.add(new SubcolumnValue((float) Math.random() * 50f + 5,
+                            ChartUtils.pickColor(),
+                            hasGradientToTransparent));
                 }
 
                 Column column = new Column(values);
@@ -425,6 +432,12 @@ public class ColumnChartActivity extends ActionBarActivity {
 
         private void toggleAxesNames() {
             hasAxesNames = !hasAxesNames;
+
+            generateData();
+        }
+
+        private void toggleGradientToTransparent() {
+            hasGradientToTransparent = !hasGradientToTransparent;
 
             generateData();
         }

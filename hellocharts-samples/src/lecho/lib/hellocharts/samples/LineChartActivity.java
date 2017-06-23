@@ -1,8 +1,6 @@
 package lecho.lib.hellocharts.samples;
 
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -503,8 +501,7 @@ public class LineChartActivity extends ActionBarActivity {
                 line.setHasGradientToTransparent(hasGradientToTransparent);
                 line.setHasGradient(hasGradient);
                 if (hasGradient) {
-                    line.setLinearGradient(new LinearGradient(0, 0, 0, this.getView().getHeight(),
-                            RAINBOW_COLORS, null, Shader.TileMode.MIRROR));
+                    line.setGradientRange(RAINBOW_COLORS);
                 }
                 if (pointsHaveDifferentColor){
                     line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);

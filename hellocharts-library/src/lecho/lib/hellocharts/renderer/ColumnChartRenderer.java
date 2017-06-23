@@ -2,10 +2,12 @@ package lecho.lib.hellocharts.renderer;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.Shader;
 
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
@@ -220,7 +222,14 @@ public class ColumnChartRenderer extends AbstractChartRenderer {
         float subcolumnRawX = rawX - halfColumnWidth;
         int valueIndex = 0;
         for (SubcolumnValue columnValue : column.getValues()) {
-            columnPaint.setColor(columnValue.getColor());
+            if (columnValue.getHasGradientToTransparent()) {
+                columnPaint.setShader(new LinearGradient(0, 0, 0, canvas.getHeight(),
+                        columnValue.getColor(), columnValue.getColor() & 0x00ffffff,
+                        Shader.TileMode.MIRROR));
+            } else {
+                columnPaint.setShader(null);
+                columnPaint.setColor(columnValue.getColor());
+            }
             if (subcolumnRawX > rawX + halfColumnWidth) {
                 break;
             }

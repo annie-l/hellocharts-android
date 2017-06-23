@@ -16,6 +16,7 @@ public class SubcolumnValue {
     private int color = ChartUtils.DEFAULT_COLOR;
     private int darkenColor = ChartUtils.DEFAULT_DARKEN_COLOR;
     private char[] label;
+    private boolean hasGradientToTransparent;
 
     public SubcolumnValue() {
         setValue(0);
@@ -32,9 +33,17 @@ public class SubcolumnValue {
         setColor(color);
     }
 
+    public SubcolumnValue(float value, int color, boolean hasGradientToTransparent) {
+        // point and targetPoint have to be different objects
+        setValue(value);
+        setColor(color);
+        setHasGradientToTransparent(hasGradientToTransparent);
+    }
+
     public SubcolumnValue(SubcolumnValue columnValue) {
         setValue(columnValue.value);
         setColor(columnValue.color);
+        setHasGradientToTransparent(false);
         this.label = columnValue.label;
     }
 
@@ -81,6 +90,15 @@ public class SubcolumnValue {
 
     public int getDarkenColor() {
         return darkenColor;
+    }
+
+    public boolean getHasGradientToTransparent() {
+        return hasGradientToTransparent;
+    }
+
+    public SubcolumnValue setHasGradientToTransparent(boolean hasGradientToTransparent) {
+        this.hasGradientToTransparent = hasGradientToTransparent;
+        return this;
     }
 
     @Deprecated

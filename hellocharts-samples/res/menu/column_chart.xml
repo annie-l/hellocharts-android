@@ -48,6 +48,10 @@
         android:title="Toggle touch zoom"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_toggle_gradient_transparent"
+        android:title="Toggle transparent gradient"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_zoom_both"
         android:title="Zoom X/Y"
         app:showAsAction="never"/>
