@@ -224,7 +224,7 @@ public class ColumnChartRenderer extends AbstractChartRenderer {
         for (SubcolumnValue columnValue : column.getValues()) {
             if (columnValue.getHasGradientToTransparent()) {
                 columnPaint.setShader(new LinearGradient(0, 0, 0, canvas.getHeight(),
-                        columnValue.getColor(), columnValue.getColor() & 0x00ffffff,
+                        columnValue.getColor(), columnValue.getColor() & 0x66ffffff,
                         Shader.TileMode.MIRROR));
             } else {
                 columnPaint.setShader(null);
