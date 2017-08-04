@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import lecho.lib.hellocharts.formatter.AxisValueFormatter;
@@ -62,6 +63,11 @@ public class Axis {
      * Typeface for labels and name text.
      */
     private Typeface typeface;
+
+    /**
+     * Allow for the values to be reversed. Specifically used for horizontal bar charts
+     */
+    private boolean isReversed = false;
 
     /**
      * Formatter used to format labels.
@@ -189,6 +195,13 @@ public class Axis {
     }
 
     public List<AxisValue> getValues() {
+        //Copy and transfer to ensure that other value logic stays intact
+        if (isReversed) {
+            ArrayList<AxisValue> copy = new ArrayList<>();
+            for (int i = values.size() - 1; i >= 0; i--)
+                copy.add(values.get(i));
+            return copy;
+        }
         return values;
     }
 
@@ -331,6 +344,20 @@ public class Axis {
     public Axis setHasTiltedLabels(boolean hasTiltedLabels) {
         this.hasTiltedLabels = hasTiltedLabels;
         return this;
+    }
+
+    /**
+     * Set to true when the natural direction of the axis should be reversed
+     * @param isReversed
+     * @return
+     */
+    public Axis setIsReversed(boolean isReversed) {
+        this.isReversed = isReversed;
+        return this;
+    }
+
+    public boolean getIsReversed() {
+        return isReversed;
     }
 
     public Axis setLabelOffset(int labelOffset) {
